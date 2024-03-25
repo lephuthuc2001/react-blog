@@ -1,7 +1,7 @@
 import React from "react";
 import { Work_Sans, Spline_Sans_Mono } from "next/font/google";
 import clsx from "clsx";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 import { LIGHT_TOKENS, DARK_TOKENS } from "@/constants";
 
@@ -29,6 +29,10 @@ function RootLayout({ children }) {
   // TODO: Dynamic theme depending on user preference
   const initialTheme = cookies().get("theme")?.value || "light";
 
+  const headerList = headers();
+
+  const host = headerList.get("host");
+
   return (
     <ThemeProvider>
       <html
@@ -38,7 +42,7 @@ function RootLayout({ children }) {
         style={initialTheme === "light" ? LIGHT_TOKENS : DARK_TOKENS}
       >
         <body>
-          <Header />
+          <Header host={host} />
           <RespectMotionPreference>
             <main>{children}</main>
           </RespectMotionPreference>

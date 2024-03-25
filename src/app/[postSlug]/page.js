@@ -3,10 +3,11 @@ import React from "react";
 import BlogHero from "@/components/BlogHero";
 
 import styles from "./postSlug.module.css";
-import { loadBlogPost } from "@/helpers/file-helpers";
+import { getBlogPostList, loadBlogPost } from "@/helpers/file-helpers";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import CodeSnippet from "@/components/CodeSnippet";
-import dynamic from "next/dynamic";
+import DivisionGroupsDemo from "@/components/DivisionGroupsDemo";
+import CircularColorsDemo from "@/components/CircularColorsDemo";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
@@ -25,13 +26,13 @@ export async function generateMetadata({ params }) {
   }
 }
 
-const DivisionGroupsDemo = dynamic(() =>
-  import("@/components/DivisionGroupsDemo")
-);
+export async function generateStaticParams() {
+  const blogs = await getBlogPostList();
 
-const CircularColorsDemo = dynamic(() =>
-  import("@/components/CircularColorsDemo")
-);
+  return blogs.map((blog) => ({
+    postSlug: blog.slug,
+  }));
+}
 
 async function BlogPost({ params }) {
   let content;

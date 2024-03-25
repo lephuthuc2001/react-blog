@@ -9,9 +9,8 @@ import VisuallyHidden from "@/components/VisuallyHidden";
 import styles from "./Header.module.css";
 import { useTheme } from "../ThemeProvider";
 import Spinner from "../Spinner";
-import { usePathname } from "next/navigation";
 
-function Header({ className, ...delegated }) {
+function Header({ className, host, ...delegated }) {
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -19,7 +18,7 @@ function Header({ className, ...delegated }) {
       <Logo />
 
       <div className={styles.actions}>
-        <a href={`${window.location.origin}/rss.xml`} className={styles.action}>
+        <a href={`${host}/rss.xml`} className={styles.action}>
           <Rss
             size="1.5rem"
             style={{
